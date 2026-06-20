@@ -1,6 +1,7 @@
 import logging
 import yaml
 from pathlib import Path
+import os
 
 import numpy as np
 import pandas as pd
@@ -25,7 +26,7 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
 from src.common.preprocessing_util import replace_zeros_with_nan_df
-from src.training.config.settings import Settings
+from src.backend.config.settings import Settings
 import sys
 from pathlib import Path
 
@@ -41,7 +42,8 @@ def train_diabetes_model():
         LOG_PATH = Path(settings.log_path)
         HYPER_PARAMS_YAML_PATH = Path(settings.hyper_params_yaml_path)
 
-        TARGET_COLUMN = settings.diabetes_target_column
+        TARGET_COLUMN = settings.diabetes_target_column.strip('"').strip("'")
+
         TEST_SIZE = settings.test_size
         RANDOM_STATE = settings.random_state
 

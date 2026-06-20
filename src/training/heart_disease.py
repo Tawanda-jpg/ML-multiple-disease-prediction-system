@@ -4,7 +4,7 @@ from joblib import dump
 import yaml
 import logging
 from pathlib import Path
-from src.training.config.settings import Settings
+from src.backend.config.settings import Settings
 
 from sklearn.model_selection import GroupShuffleSplit
 from sklearn.pipeline import Pipeline
@@ -22,12 +22,12 @@ def train_model():
         #load .env file content to env vars
         settings = Settings()
 
-        DATASET_PATH = Path(settings.heart_disease_model_path)
-        MODEL_PATH = Path(settings.diabetes_model_path)
+        DATASET_PATH = settings.heart_dataset_path
+        MODEL_PATH = Path(settings.heart_disease_model_path)
         LOG_PATH = Path(settings.log_path)
         HYPER_PARAMS_YAML_PATH = Path(settings.hyper_params_yaml_path)
 
-        HEART_DISEASE_TARGET_COLUMN = settings.heart_disease_target_column
+        HEART_DISEASE_TARGET_COLUMN = settings.heart_disease_target_column.strip('"').strip("'")
         RANDOM_STATE = settings.random_state
         TEST_SIZE = settings.test_size
 
@@ -44,7 +44,7 @@ def train_model():
         )
 
         #LOAD DATA
-        df = pd.read_csv(DATASET_PATH)
+        df = pd.read_csv(DATASET_PATH, sep=None ,encoding="latin1", engine="python", on_bad_lines="skip")
         logging.info(f"Dataset loaded with shape: {df.shape}")
 
         #separate x and y
@@ -71,6 +71,9 @@ def train_model():
             hyperparams = yaml.safe_load(file)
 
         model_params = hyperparams["heart_disease"]["params"]
+
+        print("MODEL PARAM TYPE:", type(model_params))
+        print("MODEL PARAM VALUE:", model_params)
 
         #best parameters
         best_rf = RandomForestClassifier(

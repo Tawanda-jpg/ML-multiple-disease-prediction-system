@@ -58,3 +58,35 @@ def predict_disease(disease: str, input_data: dict):
         "prediction":prediction,
         "probability":probability
     }
+
+
+#Example Usage
+#diabetes_input = {
+    #"Pregnancies": 2,
+    #"Glucose": 120,
+    #"BloodPressure": 70,
+   # "SkinThickness": 25,
+    #"Insulin": 80,
+    #"BMI": 28.5,
+    #"DiabetesPedigreeFunction": 0.5,
+    #"Age": 30
+#}
+
+#heart_input = {
+   # "age": 52,
+    #"sex": 1,
+    #"cp": 0,
+    #"trestbps": 125,
+    #"chol": 212,
+    #"fbs": 0,
+    #"restecg": 1,
+    #"thalach": 168,
+   # "exang": 0,
+   # "oldpeak": 1.0,
+   # "slope": 2,
+   # "ca": 0,
+   # "thal": 2
+#}
+
+#print(predict_disease("diabetes", diabetes_input))
+#print(predict_disease("heart_disease", heart_input))
